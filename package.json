@@ -1,0 +1,7 @@
+{
+  "name": "seguridad-antojitos",
+  "version": "1.0.0",
+  "dependencies": {
+    "@netlify/neon": "^0.6.0"
+  }
+}
