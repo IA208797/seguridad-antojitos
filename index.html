@@ -122,7 +122,7 @@
       width: 100%;
     }
     .mensaje-error {
-      color: #c62828;
+      color: #ffcccb;
       font-weight: bold;
       margin-top: 1rem;
     }
@@ -134,6 +134,7 @@
     <p>Participa inscribiendo tu antojito favorito y gana premios</p>
   </header>
 
+  <!-- Formulario con id -->
   <form id="registro-form" netlify>
     <label for="nombre">Nombre del participante:</label>
     <input type="text" id="nombre" name="nombre" required maxlength="50">
@@ -156,6 +157,7 @@
   </footer>
 
   <script>
+    // Validación en cliente
     function validarFormulario(e) {
       const nombre = document.getElementById("nombre").value;
       const platillo = document.getElementById("platillo").value;
@@ -172,7 +174,6 @@
         patronInyeccion.test(correo)
       ) {
         error.textContent = "❌ Entrada inválida: detectamos caracteres sospechosos.";
-        e.preventDefault();
         return false;
       }
 
@@ -180,6 +181,7 @@
       return true;
     }
 
+    // Envío al backend (Netlify Function)
     document.getElementById("registro-form").addEventListener("submit", async function(e) {
       e.preventDefault();
 
@@ -199,21 +201,10 @@
           body: JSON.stringify(data),
         });
 
-        console.log("🔍 Status:", res.status);
-        const text = await res.text(); // leer respuesta bruta
-        console.log("🔍 Respuesta bruta:", text);
-
-        let result;
-        try {
-          result = JSON.parse(text);
-        } catch (err) {
-          result = { error: text };
-        }
-
+        const result = await res.json();
         alert(result.message || result.error);
       } catch (err) {
         alert("⚠️ Ocurrió un error al enviar la inscripción.");
-        console.error("❌ Error en fetch:", err);
       }
     });
   </script>
